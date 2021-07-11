@@ -18,8 +18,8 @@ function App() {
             <div className="row">
               <Formulario />
             </div>
+            <ListaRecetas />
           </div>
-          <ListaRecetas />
           
         </ModalProvider>
       </RecetasProvider>

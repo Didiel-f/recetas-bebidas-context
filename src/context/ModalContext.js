@@ -7,7 +7,7 @@ export const ModalProvider = ( props ) => {
 
     // State del provider
     const [idReceta, setIdReceta] = useState(null);
-    const [receta, setReceta] = useState({});
+    const [informacion, setReceta] = useState({});
     
     useEffect(() => {
         const obtenerReceta = async () => {
@@ -26,6 +26,8 @@ export const ModalProvider = ( props ) => {
     return (
         <ModalContext.Provider
             value={{
+                informacion,
+                setReceta,
                 setIdReceta
             }}
         >

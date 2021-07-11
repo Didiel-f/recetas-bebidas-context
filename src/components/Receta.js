@@ -20,12 +20,24 @@ function getModalStyle() {
 
 const useStyles = makeStyles(theme => ({
     paper: {
-      position: 'absolute',
-      width: 400,
-      backgroundColor: theme.palette.background.paper,
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
+        position: 'absolute',
+        width: 300,
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+        overflow: 'scroll',
+        height: '100%',
+        maxHeight: 500,
+        display: 'block'
+        },
+        header: {
+        padding: '12px 0',
+        borderBottom: '1px solid darkgrey'
+        },
+        content: {
+        padding: "12px 0",
+        overflow: 'scroll'
+        }
 }));
 
 export const Receta = ({ receta }) => {
@@ -42,7 +54,25 @@ export const Receta = ({ receta }) => {
         setOpen(false);
     };
 
-    const { setIdReceta } = useContext( ModalContext );
+    // Extraer valores del context
+    const { informacion, setReceta, setIdReceta } = useContext( ModalContext );
+
+    // Muestra y formatea los ingredientes
+    const mostrarIngredientes = (informacion) => {
+        let ingredientes = [];
+
+        // console.log(informacion[`strIngredient1`])
+        for (let i = 1; i < 16; i++) {
+            if ( informacion[`strIngredient${i}`] ) {
+                ingredientes.push(
+                    <li >
+                        { informacion[`strIngredient${i}`] } { informacion[`strMeasure${i}`] }
+                    </li>
+                )
+            }
+        }
+        return ingredientes;
+    };
     
     return (
         <div className="col-md-4 mb-3">
@@ -67,11 +97,23 @@ export const Receta = ({ receta }) => {
                         open={ open }
                         onClose={ () => {
                             setIdReceta(null);
+                            setReceta({});
                             handleClose();
                         } }
                     >
                         <div style={ modalStyle } className={ classes.paper }>
-                            <h1>Desde Modal</h1>
+                            <h2>{ informacion.Drink }</h2>
+                            <h3 className="mt-4">Instrucciones</h3>
+                            <p>
+                                { informacion.strInstructions }
+                            </p>
+                            <img className="img-fluid my-4" src={ informacion.strDrinkThumb } alt={ informacion.Drink } />
+
+                            <h3>Ingredientes y cantidades</h3>
+                            <ul>
+                                { mostrarIngredientes( informacion ) }
+                            </ul>
+                            
                         </div>
                     </Modal>
                     
